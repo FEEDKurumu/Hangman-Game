@@ -1,10 +1,12 @@
 var gameStats = {
   wins: 0,
   losses: 0,
-  guessesLeft: 10
-}
-
-var wordList = ["words"];
+  guessesLeft: 7
+};
+var wordList = ["mercury", "venus", "earth", "mars", "jupiter", "saturn", 
+"uranus", "neptune", "pluto", "sun", "asteroid", "star", "planet", 
+"blackhole", "comet", "constellation", "galaxy", "meteor", "moon", 
+"satellite"];
 var letters;
 var currWord;
 var currWordBlank = [];
@@ -24,9 +26,17 @@ function updateGuesses() {
   document.getElementById("incorrectGuesses").innerHTML = incorrectGuesses.join(" ");
 }
 
+function showPrevious() {
+  document.getElementById("previous").innerHTML = currWord;
+}
+
+function replacePic(word) {
+  document.getElementById("gamepic").src=("assets/images/" + word + ".jpg");
+}
+
 function resetGame() {
-  gameStats.guessesLeft = 10;
-  letters = "qwertyuiopasdfghjklzxvbnm".split("");
+  gameStats.guessesLeft = 7;
+  letters = "qwertyuiopasdfghjklzxcvbnm".split("");
   currWordBlank = [];
   incorrectGuesses = [];
   updateGuesses();
@@ -61,14 +71,18 @@ document.onkeyup = function(event) {
     console.log(gameStats.guessesLeft);
 
     if (gameStats.guessesLeft === 0) {
+      showPrevious();
+      replacePic(currWord);
       resetGame();
       gameStats.losses++
       updateWinLoss();
     }
 
     if (currWordBlank.indexOf("_") < 0) {
-      gameStats.wins++;
+      showPrevious();
+      replacePic(currWord);
       updateWinLoss();
+      gameStats.wins++;
       resetGame();
     }
   }
